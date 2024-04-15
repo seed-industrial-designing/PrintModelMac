@@ -14,7 +14,7 @@ let package = Package(
 		),
 	],
 	dependencies: [
-		.package(path: "../PipeModelMac")
+		.package(url: "https://github.com/seed-industrial-designing/PipeModelMac.git", from: "1.0.0"),
 	],
 	targets: [
 		.target(
