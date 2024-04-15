@@ -1,0 +1,129 @@
+/* 
+  PrintModel
+  Copyright © 2015-2024 Seed Industrial Designing Co., Ltd. All rights reserved.
+*/
+
+"Canvas_default_name" = "標準プリント領域";
+
+"OffsetBase_menuTitle_top" = "↑ 上";
+"OffsetBase_menuTitle_topLeft" = "↖︎ 左上";
+"OffsetBase_menuTitle_left" = "← 左";
+"OffsetBase_menuTitle_center" = "╋ 中心";
+"OffsetBase_menuTitle_center_WIN" = "⇔ 中心";
+"OffsetBase_menuTitle_topRight" = "↗︎ 右上";
+"OffsetBase_menuTitle_right" = "→ 右";
+
+"OffsetBase_menuTitleWithoutArrow_top" = "上";
+"OffsetBase_menuTitleWithoutArrow_topLeft" = "左上";
+"OffsetBase_menuTitleWithoutArrow_left" = "左";
+"OffsetBase_menuTitleWithoutArrow_center" = "中心";
+"OffsetBase_menuTitleWithoutArrow_topRight" = "右上";
+"OffsetBase_menuTitleWithoutArrow_right" = "右";
+
+"Menu_Print" = "プリント";
+"Menu_Print_WIN" = "印刷";
+"Menu_StartScreenMaking" = "製版";
+"Menu_PrepareScreenMaking" = "製版...";
+
+"Inspector_Print_Title_Print" = "プリント";
+"Inspector_Print_Title_Print_WIN" = "印刷";
+"Inspector_Print_Title_ScreenMaking" = "製版";
+"Inspector_Print_OptionsExpanderTitle_Print" = "プリンタオプション";
+"Inspector_Print_OptionsExpanderTitle_Print_WIN" = "プリンターオプション";
+"Inspector_Print_OptionsExpanderTitle_ScreenMaking" = "製版オプション";
+
+"Inspector_Print_PrintButtonTitle_Print" = "プリント";
+"Inspector_Print_PrintButtonTitle_Print_WIN" = "印刷";
+"Inspector_Print_PrintButtonTitle_PrepareScreenMaking" = "イメージを転送";
+"Inspector_Print_PrintButtonTitle_StartScreenMaking" = "製版";
+
+"Inspector_ImageLayout_overflowAlertDescription_Print" = "画面からはみ出た部分はプリントされません。";
+"Inspector_ImageLayout_overflowAlertDescription_ScreenMaking" = "画面からはみ出た部分は製版されません。";
+
+"OriginalImage_imageSizeDescriptionFormat_pxmm" = "%li × %li px（%.1f × %.1f mm）";
+"Error_OriginalImage_containsNoValidImage" = "イメージ“%@”の読み込みに失敗しました。";
+"Error_OriginalImage_containsNoValidImage_recoverySuggestion" = "このイメージには読み込める内容が含まれていませんでした。";
+
+"TransportType_usb" = "USB";
+"TransportType_wifi" = "Wi-Fi";
+
+"DeviceStatusElement_ColonSeparator" = ":";
+"DeviceStatusElement_Label_dateTime" = "更新日時";
+"DeviceStatusElement_Label_app" = "アプリケーション";
+"DeviceStatusElement_Label_mac" = "Mac";
+"DeviceStatusElement_Label_macOs" = "macOS";
+"DeviceStatusElement_Label_operatingSystem" = "OS";
+"DeviceStatusElement_Label_error" = "エラー";
+"DeviceStatusElement_Label_alert" = "注意";
+"DeviceStatusElement_Label_modelName" = "マシン";
+"DeviceStatusElement_Label_firmware" = "ファームウェア";
+"DeviceStatusElement_Label_serial" = "シリアル";
+"DeviceStatusElement_Label_headTemperature" = "ヘッド温度";
+"DeviceStatusElement_Label_foilTemperature" = "箔温度";
+"DeviceStatusElement_Label_motorTemperature" = "モータ温度";
+"DeviceStatusElement_Label_colorInkStatus" = "カラーインク状態";
+"DeviceStatusElement_Label_blackInkStatus" = "ブラックインク状態";
+"DeviceStatusElement_Label_remainingColorInk" = "カラーインク残量";
+"DeviceStatusElement_Label_remainingBlackInk" = "ブラックインク残量";
+"DeviceStatusElement_Content_app_format" = "バージョン%@（ビルド%@）";
+"DeviceStatusElement_Content_app_format_WIN" = "バージョン %@（ビルド %@）";
+
+"PrintProgress_title_ScreenMaking" = "製版";
+"PrintProgress_title_Print" = "プリント";
+"PrintProgress_title_Print_WIN" = "印刷";
+
+"PrintProgress_Description_ProcessingImage" = "イメージを処理中...";
+"PrintProgress_Description_SendingImageData" = "データを送信中...";
+"PrintProgress_Description_SendingImageData_WIN" = "データーを送信中...";
+"PrintProgress_Description_SendingRemainingImageData" = "残りのデータを送信中...";
+"PrintProgress_Description_SendingRemainingImageData_WIN" = "残りのデーターを送信中...";
+"PrintProgress_Description_PreparingForScreenMaking" = "製版の準備中...";
+"PrintProgress_Description_PreparingDataForImage" = "送信するデータを作成中...";
+"PrintProgress_Description_PreparingDataForImage_WIN" = "送信するデーターを作成中...";
+"PrintProgress_Description_CheckingPrinterStatus" = "マシンの状態を確認中...";
+"PrintProgress_Description_SettingParametersForScreenMaking" = "製版パラメータを設定中...";
+"PrintProgress_Description_SettingParametersForScreenMaking_WIN" = "製版パラメーターを設定中...";
+"PrintProgress_Description_SettingParametersForPrint" = "パラメータを設定中...";
+"PrintProgress_Description_SettingParametersForPrint_WIN" = "パラメーターを設定中...";
+"PrintProgress_Description_MovingPrintHead" = "ヘッドを移動中...";
+"PrintProgress_Description_FinishingPrint" = "プリントを完了中...";
+"PrintProgress_Description_FinishingPrint_WIN" = "印刷を完了中...";
+"PrintProgress_Description_ImageDataSendingCompleted" = "イメージの送信が完了しました。";
+"PrintProgress_Description_StartingPrint" = "プリントを開始中...";
+"PrintProgress_Description_StartingPrint_WIN" = "印刷を開始中...";
+"PrintProgress_Description_Printing" = "プリント中...";
+"PrintProgress_Description_Printing_WIN" = "印刷中...";
+"PrintProgress_Description_PreparingForPrint" = "プリントの準備中...";
+"PrintProgress_Description_PreparingForPrint_WIN" = "印刷の準備中...";
+"PrintProgress_Description_StartingScreenMaking" = "製版を開始中...";
+"PrintProgress_Description_WorkingScreenMaking" = "製版中...";
+"PrintProgress_Description_SendingCommand" = "コマンドを送信中...";
+"PrintProgress_Description_ReadyToExchangeCartridges" = "カートリッジを交換可能です。";
+"PrintProgress_AdditionalDescription_ClickCancelWhenCartridgeExchangeIsCompleted" = "カートリッジの交換が完了したら“キャンセル”をクリックしてください。";
+
+"Error_connection_ReceivedInvalidData" = "マシンから受け取ったデータが正しくありませんでした。";
+"Error_connection_ReceivedInvalidData_recoverySuggestion" = "マシンの電源を入れ直すと解決する可能性があります。";
+"Error_connection_IncorrectDeviceModel" = "異なるモデルが選択されています。";
+"Error_connection_IncorrectDeviceModel_recoverySuggestion" = "ツールバーにあるボタンでMacに接続したマシンのモデル名を選択してください。";
+"Error_connection_IncorrectDeviceModel_recoverySuggestion_WIN" = "ツールバーにあるボタンで PC に接続したマシンのモデル名を選択してください。";
+"Error_connection_NoDeviceModelInDocument" = "マシンモデルが選択されていません。";
+"Error_connection_NoDeviceModelInDocument_recoverySuggestion" = "ツールバーにあるボタンでMacに接続したマシンのモデル名を選択してください。";
+"Error_connection_NoDeviceModelInDocument_recoverySuggestion_WIN" = "ツールバーにあるボタンで PC に接続したマシンのモデル名を選択してください。";
+"Error_connection_NoImageInDocument" = "書類にイメージが含まれていません。";
+"Error_connection_NoImageInDocument_WIN" = "ドキュメントにイメージが含まれていません。";
+"Error_connection_NoImageInDocument_recoverySuggestion" = "イメージを選択してください。";
+"Error_connection_DocumentImageIsTooSmall" = "イメージのサイズが小さすぎます。";
+"Error_connection_DocumentImageIsTooSmall_recoverySuggestion" = "イメージをより大きなサイズに変更してください。";
+"Error_connection_DocumentImageIsNotInCanvas" = "イメージがプリント可能領域の外にあります。";
+"Error_connection_DocumentImageIsNotInCanvas_recoverySuggestion" = "";
+"Error_connection_CouldNotGetPrinterStatus" = "マシンの状況を取得できませんでした。";
+"Error_connection_CouldNotGetPrinterStatus_recoverySuggestion" = "マシンの電源を入れ直すと解決する可能性があります。";
+"Error_connection_PrinterIsBusy" = "マシンがほかの処理を実行しています。";
+"Error_connection_PrinterIsBusy_recoverySuggestion" = "現在の処理が完了したあとに再度実行してください。";
+"Error_connection_HeadIsTooHighTemperature" = "ヘッドが異常に高温（%li℃）です。";
+"Error_connection_HeadIsTooHighTemperature_WIN" = "ヘッドが異常に高温（%li ℃）です。";
+"Error_connection_HeadIsTooHighTemperature_recoverySuggestion" = "プリントに最適な温度は%li℃前後です。マシンの電源を落としてヘッドが冷めるのを待ってから再度実行してください。";
+"Error_connection_HeadIsTooHighTemperature_recoverySuggestion_WIN" = "印刷に最適な温度は %li ℃ 前後です。マシンの電源を落としてヘッドが冷めるのを待ってから再度実行してください。";
+"Error_connection_ScriptingPrintIsNotAllowedByUser" = "AppleScript によるプリントが許可されていません。";
+"Error_connection_ScriptingPrintIsNotAllowedByUser_recoverySuggestion" = "プリントはユーザによって拒否されました。";
+

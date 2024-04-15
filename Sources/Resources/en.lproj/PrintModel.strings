@@ -1,0 +1,109 @@
+/* 
+  PrintModel
+  Copyright © 2015-2024 Seed Industrial Designing Co., Ltd. All rights reserved.
+*/
+
+"Canvas_default_name" = "Normal canvas";
+
+"OffsetBase_menuTitle_top" = "↑ Top";
+"OffsetBase_menuTitle_topLeft" = "↖︎ Top Left";
+"OffsetBase_menuTitle_left" = "← Left";
+"OffsetBase_menuTitle_center" = "╋ Center";
+"OffsetBase_menuTitle_center_WIN" = "⇔ Center";
+"OffsetBase_menuTitle_topRight" = "↗︎ Top Right";
+"OffsetBase_menuTitle_right" = "→ Right";
+
+"OffsetBase_menuTitleWithoutArrow_top" = "Top";
+"OffsetBase_menuTitleWithoutArrow_topLeft" = "Top Left";
+"OffsetBase_menuTitleWithoutArrow_left" = "Left";
+"OffsetBase_menuTitleWithoutArrow_center" = "Center";
+"OffsetBase_menuTitleWithoutArrow_topRight" = "Top Right";
+"OffsetBase_menuTitleWithoutArrow_right" = "Right";
+
+"Menu_Print" = "Print";
+"Menu_StartScreenMaking" = "Screen Making";
+"Menu_PrepareScreenMaking" = "Screen Making...";
+
+"Inspector_Print_Title_Print" = "Print";
+"Inspector_Print_Title_ScreenMaking" = "Screen Making";
+"Inspector_Print_OptionsExpanderTitle_Print" = "Printer Options";
+"Inspector_Print_OptionsExpanderTitle_ScreenMaking" = "Screen Making";
+
+"Inspector_Print_PrintButtonTitle_Print" = "Print";
+"Inspector_Print_PrintButtonTitle_Print_WIN" = "_Print";
+"Inspector_Print_PrintButtonTitle_PrepareScreenMaking" = "Send Image";
+"Inspector_Print_PrintButtonTitle_StartScreenMaking" = "Screen Making";
+
+"Inspector_ImageLayout_overflowAlertDescription_Print" = "Area outside the screen will not be printed.";
+"Inspector_ImageLayout_overflowAlertDescription_ScreenMaking" = "Area outside the screen will not be printed.";
+
+"OriginalImage_imageSizeDescriptionFormat_pxmm" = "%li × %li px (%.1f × %.1f mm)";
+"Error_OriginalImage_containsNoValidImage" = "Couldn’t load image “%@”.";
+"Error_OriginalImage_containsNoValidImage_recoverySuggestion" = "The image contains no valid source.";
+
+"TransportType_usb" = "USB";
+"TransportType_wifi" = "Wi-Fi";
+
+"DeviceStatusElement_ColonSeparator" = ": ";
+"DeviceStatusElement_Label_dateTime" = "Time";
+"DeviceStatusElement_Label_app" = "Application";
+"DeviceStatusElement_Label_mac" = "Mac";
+"DeviceStatusElement_Label_macOs" = "macOS";
+"DeviceStatusElement_Label_operatingSystem" = "Operating System";
+"DeviceStatusElement_Label_error" = "Error";
+"DeviceStatusElement_Label_alert" = "Alert";
+"DeviceStatusElement_Label_modelName" = "Machine";
+"DeviceStatusElement_Label_firmware" = "Firmware";
+"DeviceStatusElement_Label_serial" = "Serial";
+"DeviceStatusElement_Label_headTemperature" = "Head Temperature";
+"DeviceStatusElement_Label_foilTemperature" = "Foil Temperature";
+"DeviceStatusElement_Label_motorTemperature" = "Motor Temperature";
+"DeviceStatusElement_Label_colorInkStatus" = "Color Ink Status";
+"DeviceStatusElement_Label_blackInkStatus" = "Black Ink Status";
+"DeviceStatusElement_Label_remainingColorInk" = "Remaining Color Ink";
+"DeviceStatusElement_Label_remainingBlackInk" = "Remaining Black Ink";
+"DeviceStatusElement_Content_app_format" = "Version %@ (Build %@)";
+
+"PrintProgress_title_ScreenMaking" = "Screen Making";
+"PrintProgress_title_Print" = "Print";
+
+"PrintProgress_Description_ProcessingImage" = "Processing image...";
+"PrintProgress_Description_SendingImageData" = "Sending image data...";
+"PrintProgress_Description_SendingRemainingImageData" = "Sending more image data...";
+"PrintProgress_Description_PreparingForScreenMaking" = "Preparing for screen making...";
+"PrintProgress_Description_PreparingDataForImage" = "Preparing data for image...";
+"PrintProgress_Description_CheckingPrinterStatus" = "Checking machine status...";
+"PrintProgress_Description_SettingParametersForScreenMaking" = "Sending parameters for screen making...";
+"PrintProgress_Description_SettingParametersForPrint" = "Sending parameters...";
+"PrintProgress_Description_MovingPrintHead" = "Moving print head...";
+"PrintProgress_Description_FinishingPrint" = "Waiting for print complete...";
+"PrintProgress_Description_ImageDataSendingCompleted" = "Image data was sent.";
+"PrintProgress_Description_StartingPrint" = "Starting print...";
+"PrintProgress_Description_Printing" = "Printing...";
+"PrintProgress_Description_PreparingForPrint" = "Preparing for print...";
+"PrintProgress_Description_StartingScreenMaking" = "Starting screen making...";
+"PrintProgress_Description_WorkingScreenMaking" = "Working on screen making...";
+"PrintProgress_Description_SendingCommand" = "Sending command...";
+"PrintProgress_Description_ReadyToExchangeCartridges" = "Ready to exchange cartridges.";
+"PrintProgress_AdditionalDescription_ClickCancelWhenCartridgeExchangeIsCompleted" = "Click Cancel when completed.";
+
+"Error_connection_ReceivedInvalidData" = "Received invalid data.";
+"Error_connection_ReceivedInvalidData_recoverySuggestion" = "Restarting machine may resolve this issue.";
+"Error_connection_IncorrectDeviceModel" = "Incorrect machine model is selected.";
+"Error_connection_IncorrectDeviceModel_recoverySuggestion" = "Please select the model of machine connected to this Mac.";
+"Error_connection_NoDeviceModelInDocument" = "No machine model is selected.";
+"Error_connection_NoDeviceModelInDocument_recoverySuggestion" = "Please select the model of machine connected to this Mac.";
+"Error_connection_NoImageInDocument" = "The document has no image.";
+"Error_connection_NoImageInDocument_recoverySuggestion" = "For screen making there must be a image.";
+"Error_connection_DocumentImageIsTooSmall" = "Image size is too small.";
+"Error_connection_DocumentImageIsTooSmall_recoverySuggestion" = "Please resize image larger.";
+"Error_connection_DocumentImageIsNotInCanvas" = "Image is not in printable area.";
+"Error_connection_DocumentImageIsNotInCanvas_recoverySuggestion" = "";
+"Error_connection_CouldNotGetPrinterStatus" = "Could not get machine status.";
+"Error_connection_CouldNotGetPrinterStatus_recoverySuggestion" = "Restarting machine may resolve this issue.";
+"Error_connection_PrinterIsBusy" = "Machine is busy.";
+"Error_connection_PrinterIsBusy_recoverySuggestion" = "Please try later.";
+"Error_connection_HeadIsTooHighTemperature" = "Head is too high temperature (%li ℃).";
+"Error_connection_HeadIsTooHighTemperature_recoverySuggestion" = "Preferred temperature is around %li ℃.";
+"Error_connection_ScriptingPrintIsNotAllowedByUser" = "Printing with AppleScript is not allowed.";
+"Error_connection_ScriptingPrintIsNotAllowedByUser_recoverySuggestion" = "User has denied print command.";

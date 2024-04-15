@@ -1,0 +1,287 @@
+//
+// PrintModelMac
+// Copyright © 2015-2024 Seed Industrial Designing Co., Ltd. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+// and associated documentation files (the “Software”), to deal in the Software without
+// restriction, including without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom
+// the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
+import Foundation
+
+@objc public final class DeviceDescriptor : NSObject, NSCopying
+{
+	private static var _deviceDescriptors: [DeviceDescriptor]? = nil
+	public class var supported: [DeviceDescriptor]
+	{
+		if (_deviceDescriptors == nil) {
+			_deviceDescriptors = ConnectPluginManager.shared.plugins.flatMap { $0.deviceDescriptors }
+		}
+		return _deviceDescriptors!
+	}
+	
+	struct SerializedInfo: Decodable
+	{
+		let isDisabled: Bool?
+		let modelName: String
+		let displayName: String?
+		let printerType: String
+		let printVerb: PrintVerb?
+		let canvases: [Canvas.SerializedInfo]
+		
+		let transportTypes: [String]?
+		let colorAbility: String?
+		let headDotCount: Int?
+		let dpi: CGFloat
+		let hidesDpi: Bool?
+		let offsetBases: [String]
+		let completionAlertVideoName: String?
+		
+		@CustomDecodedParameterSerializedInfos var parameterProperties: [DeviceSettingParameterSerializedInfo]
+		let maintenanceActions: [MaintenanceAction.SerializedInfo]?
+		let showsMaintenanceButton: Bool?
+		let additionalInfos: DeviceAdditionalInfoDictionary?
+	}
+	public static func deviceDescriptors(decoding jsonData: Data, bundle: Bundle) throws -> [DeviceDescriptor]
+	{
+		let jsonDecoder = JSONDecoder()
+		return try jsonDecoder.decode([DeviceDescriptor.SerializedInfo].self, from: jsonData)
+			.filter { !($0.isDisabled ?? false) }
+			.map { DeviceDescriptor(from: $0, bundle: bundle) }
+	}
+
+	init(from serializedInfo: SerializedInfo, bundle: Bundle)
+	{
+		var localizedStringTables: [LocalizedStringTable] = [.main, .printModel]; do {
+			let bundleTable = LocalizedStringTable(bundle: bundle, name: nil)
+			if !localizedStringTables.contains(bundleTable) {
+				localizedStringTables.insert(bundleTable, at: 0)
+			}
+		}
+		self.localizedStringTables = localizedStringTables
+		
+		let modelName = serializedInfo.modelName
+		self.modelName = modelName
+		localizedName = (serializedInfo.displayName ?? modelName)
+		printerType = serializedInfo.printerType
+		printVerb = (serializedInfo.printVerb ?? .print)
+		colorAbility = serializedInfo.colorAbility.flatMap { ColorAbility(rawValue: $0) } ?? .blackWhite
+		colorAbility_objc = colorAbility.rawValue
+		headDotCount = serializedInfo.headDotCount ?? 1
+		dpi = .init(rawValue: serializedInfo.dpi)
+		dpi_objc = dpi.rawValue
+		hidesDpi = serializedInfo.hidesDpi ?? false
+		
+		canvases = serializedInfo.canvases.map { Canvas(from: $0, localizedStringTables: localizedStringTables) }
+		
+		allowedOffsetBases = serializedInfo.offsetBases.compactMap { OffsetBase(rawValue: $0) }
+		_allowedOffsetBases_objc = allowedOffsetBases.map { $0.rawValue }
+				
+		transportTypes = (serializedInfo.transportTypes ?? ["usb"]).map { TransportType(rawValue: $0)! }
+		transportTypes_objc = transportTypes.map { $0.rawValue }
+		
+		guard !allowedOffsetBases.isEmpty, !canvases.isEmpty else {
+			fatalError()
+		}
+		
+		if let maintenanceActionInfos = serializedInfo.maintenanceActions {
+			maintenanceActions = maintenanceActionInfos.map { .init(from: $0, localizedStringTables: localizedStringTables) }
+		} else {
+			maintenanceActions = []
+		}
+		visibleMaintenanceActions = maintenanceActions.filter { $0.visibility == .visible }
+		visibleMaintenanceActionsIncludingDebug = maintenanceActions.filter { $0.visibility != .hidden }
+
+		parameterProperties = serializedInfo.parameterProperties.map {
+			switch $0 {
+			case let number as DeviceSettingParameter.NumberParameter.SerializedInfo:
+				return DeviceSettingParameter.NumberParameter(from: number, localizedStringTables: localizedStringTables)
+			case let bool as DeviceSettingParameter.BoolParameter.SerializedInfo:
+				return DeviceSettingParameter.BoolParameter(from: bool, localizedStringTables: localizedStringTables)
+			case let pick as DeviceSettingParameter.PickParameter.SerializedInfo:
+				return DeviceSettingParameter.PickParameter(from: pick, localizedStringTables: localizedStringTables)
+			default:
+				fatalError()
+			}
+		}
+		
+		showsMaintenanceButton = serializedInfo.showsMaintenanceButton ?? true
+		
+		completionAlertVideoUrl = serializedInfo.completionAlertVideoName.flatMap {
+			bundle.url(forResource: $0, withExtension: "mp4")
+		}
+		
+		additionalInfos = serializedInfo.additionalInfos ?? .init()
+		
+		super.init()
+	}
+	public func copy(with zone: NSZone? = nil) -> Any { self }
+	
+	@objc public dynamic let modelName: String
+	@objc public dynamic let localizedName: String
+	@objc public dynamic let printerType: String
+	public var printVerb: PrintVerb
+	@objc public dynamic let canvases: [Canvas]
+	@nonobjc public let transportTypes: [TransportType]
+	@objc(transportTypes) public dynamic let transportTypes_objc: [String]
+	@nonobjc public let colorAbility: ColorAbility
+	@objc(colorAbility) public dynamic let colorAbility_objc: String
+	@objc public dynamic let headDotCount: Int
+	@nonobjc public let dpi: Dpi
+	@objc(dpi) public dynamic let dpi_objc: CGFloat
+	@objc public dynamic let hidesDpi: Bool
+	@objc public dynamic let completionAlertVideoUrl: URL?
+	public let maintenanceActions: [MaintenanceAction]
+	public let visibleMaintenanceActions: [MaintenanceAction]
+	public let visibleMaintenanceActionsIncludingDebug: [MaintenanceAction]
+
+	@nonobjc public let allowedOffsetBases: [OffsetBase]
+	@objc(allowedOffsetBases) public dynamic let _allowedOffsetBases_objc: [String]
+	
+	public let additionalInfos: DeviceAdditionalInfoDictionary
+	@objc public dynamic let parameterProperties: [DeviceSettingParameter]
+	@objc public dynamic let showsMaintenanceButton: Bool
+	
+	public var localizedStringTables: [LocalizedStringTable]
+}
+
+public struct MaintenanceAction
+{
+	public enum Visibility: String, Decodable
+	{
+		case visible, hidden, debug
+	}
+	struct SerializedInfo: Decodable
+	{
+		let identifier: String
+		let visibility: Visibility?
+	}
+	init(from serializedInfo: SerializedInfo, localizedStringTables: [LocalizedStringTable])
+	{
+		func getLocalization(for key: String) -> String
+		{
+			return LocalizedStringTable.preferredLocalizedString(
+				forKey: ("MaintenanceAction_" + serializedInfo.identifier + key),
+				in: localizedStringTables
+			) ?? serializedInfo.identifier
+		}
+		identifier = serializedInfo.identifier
+		visibility = serializedInfo.visibility ?? .visible
+		buttonTitle = getLocalization(for: "_buttonTitle")
+		progressTitle = getLocalization(for: "_progressTitle")
+	}
+	init(identifier: String, visibility: Visibility = .visible, buttonTitle: String, progressTitle: String)
+	{
+		self.identifier = identifier
+		self.visibility = visibility
+		self.buttonTitle = buttonTitle
+		self.progressTitle = progressTitle
+	}
+	
+	public let identifier: String
+	public let visibility: Visibility
+	public let buttonTitle: String
+	public let progressTitle: String
+}
+extension DeviceDescriptor
+{
+	public var showsCompletionAlert: Bool { printCompletionMessage != nil }
+}
+extension DeviceDescriptor
+{
+	@objc public var printProgressTitle: String
+	{
+		let localizedKey: String
+		switch printVerb {
+		case .screenMaking:
+			localizedKey = "ScreenMaking"
+		default:
+			localizedKey = "Print"
+		}
+		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("PrintProgress_title_" + localizedKey)) ?? localizedKey
+	}
+	@objc public var printButtonTitle: String
+	{
+		let localizedKey: String
+		switch printVerb {
+		case .screenMaking:
+			if showsCompletionAlert {
+				localizedKey = "PrepareScreenMaking"
+			} else {
+				localizedKey = "StartScreenMaking"
+			}
+		default:
+			localizedKey = "Print"
+		}
+		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_Print_PrintButtonTitle_" + localizedKey)) ?? localizedKey
+	}
+	@objc public var printInspectorOptionsExpanderTitle: String
+	{
+		let localizedKey: String
+		switch printVerb {
+		case .screenMaking:
+			localizedKey = "ScreenMaking"
+		default:
+			localizedKey = "Print"
+		}
+		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_Print_OptionsExpanderTitle_" + localizedKey)) ?? localizedKey
+	}
+	@objc public var printMenuItemTitle: String
+	{
+		let localizedKey: String
+		switch printVerb {
+		case .screenMaking:
+			if showsCompletionAlert {
+				localizedKey = "PrepareScreenMaking"
+			} else {
+				localizedKey = "StartScreenMaking"
+			}
+		default:
+			localizedKey = "Print"
+		}
+		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Menu_" + localizedKey)) ?? localizedKey
+	}
+	@objc public var printInspectorPaneTitle: String
+	{
+		let localizedKey: String
+		switch printVerb {
+		case .screenMaking:
+			localizedKey = "ScreenMaking"
+		default:
+			localizedKey = "Print"
+		}
+		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_Print_Title_" + localizedKey)) ?? localizedKey
+	}
+	@objc public var overflowAlertMessage: String
+	{
+		let localizedKey: String
+		switch printVerb {
+		case .screenMaking:
+			localizedKey = "ScreenMaking"
+		default:
+			localizedKey = "Print"
+		}
+		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_ImageLayout_overflowAlertDescription_" + localizedKey)) ?? localizedKey
+	}
+	@objc public var printCompletionMessage: String?
+	{
+		LocalizedStringTable.preferredLocalizedString(forKey: ("PrintCompletionAlert_Message_" + modelName), in: localizedStringTables)
+	}
+	@objc public var printCompletionInformativeText: String?
+	{
+		LocalizedStringTable.preferredLocalizedString(forKey: ("PrintCompletionAlert_InformativeText_" + modelName), in: localizedStringTables)
+	}
+}
