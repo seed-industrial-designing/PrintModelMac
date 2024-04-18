@@ -26,20 +26,25 @@ public extension Int32
 {
 	init(fourCharString: String)
 	{
-		if (fourCharString.count != 4) {
+		guard (fourCharString.count == 4) else {
 			self = 0
+			return
 		}
-		var result: Int32 = 0
-		fourCharString.withCString { charPtr in
-			for i in 0..<4 {
-				var characterIndex = i
-				#if TARGET_RT_BIG_ENDIAN
-					characterIndex = (3 - i)
-				#endif
-				result |= (Int32(charPtr[characterIndex]) << (8 * i))
+		guard var codes = fourCharString.cString(using: .ascii)?.prefix(4) else {
+			self = 0
+			return
+		}
+		switch UInt32(CFByteOrderGetCurrent()) {
+		case CFByteOrderLittleEndian.rawValue:
+			codes.reverse()
+		default:
+			break
+		}
+		self = codes
+			.enumerated()
+			.reduce(Int32(0)) { (currentResult, character) in
+				(currentResult | (Int32(character.element) << (8 * character.offset)))
 			}
-		}
-		self = result
 	}
 }
 public extension FixedWidthInteger
