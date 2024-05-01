@@ -41,9 +41,7 @@ extension LocalizableError
 	
 	public var recoverySuggestion: String? { _getMessages(errorTypeIdentifier: Self.errorTypeIdentifier).recoverySuggestion }
 	public var errorDescription: String? { _getMessages(errorTypeIdentifier: Self.errorTypeIdentifier).description }
-	
-	public static var table: LocalizedStringTable { fatalError("LocalizableError.table must be specified.") }
-	
+		
 	func _getMessages(errorTypeIdentifier: String) -> (description: String, recoverySuggestion: String?)
 	{
 		let messages = _getRawMessages(errorTypeIdentifier: errorTypeIdentifier)
