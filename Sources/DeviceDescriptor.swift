@@ -142,6 +142,7 @@ import Foundation
 				if let base = connected.first(where: { $0.modelName == override.baseModelName }) {
 					connected.append(override.connected(base: base))
 					overrides.remove(at: i)
+					break
 				}
 			}
 		}
