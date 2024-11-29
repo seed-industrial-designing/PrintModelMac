@@ -26,6 +26,7 @@ public enum OffsetBaseVerticalPosition
 {
 	case top
 	case middle
+	case bottom
 }
 public enum OffsetBaseHorizontalPosition
 {
@@ -37,31 +38,39 @@ public enum OffsetBaseHorizontalPosition
 public struct OffsetBase: RawRepresentable, Hashable, Codable
 {
 	private static let fourCharCodes: [Self: Int32] = [ //for legacy purpose
-		.top: .init(fourCharString: "obTo"),
-		
 		.topLeft: .init(fourCharString: "obTL"),
-		.left: .init(fourCharString: "obLe"),
-		
-		.center: .init(fourCharString: "obCe"),
-		
+		.top: .init(fourCharString: "obTo"),
 		.topRight: .init(fourCharString: "obTR"),
+		
+		.left: .init(fourCharString: "obLe"),
+		.center: .init(fourCharString: "obCe"),
 		.right: .init(fourCharString: "obRi"),
+		
+		.bottomLeft: .init(fourCharString: "obBL"),
+		.bottom: .init(fourCharString: "obBo"),
+		.bottomRight: .init(fourCharString: "obBR"),
 	]
 	public init?(rawValue: String)
 	{
 		switch rawValue {
-		case "top":
-			self = .top
 		case "topLeft":
 			self = .topLeft
+		case "top":
+			self = .top
+		case "topRight":
+			self = .topRight
 		case "left":
 			self = .left
 		case "center":
 			self = .center
-		case "topRight":
-			self = .topRight
 		case "right":
 			self = .right
+		case "bottomLeft":
+			self = .bottomLeft
+		case "bottom":
+			self = .bottom
+		case "bottomRight":
+			self = .bottomRight
 		default:
 			return nil
 		}
@@ -86,6 +95,10 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 	public static var center = Self(positionVertical: .middle, horizontal: .middle)
 	public static var right = Self(positionVertical: .middle, horizontal: .right)
 	
+	public static var bottomLeft = Self(positionVertical: .bottom, horizontal: .left)
+	public static var bottom = Self(positionVertical: .bottom, horizontal: .middle)
+	public static var bottomRight = Self(positionVertical: .bottom, horizontal: .right)
+	
 	//MARK: - Positions
 	
 	public var verticalPosition: OffsetBaseVerticalPosition
@@ -108,6 +121,12 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 			return "center"
 		case (.middle, .right):
 			return "right"
+		case (.bottom, .left):
+			return "bottomLeft"
+		case (.bottom, .middle):
+			return "bottom"
+		case (.bottom, .right):
+			return "bottomRight"
 		}
 	}
 	public var fourCharCode: Int32? { Self.fourCharCodes[self] }
@@ -117,18 +136,24 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 	public var systemSymbolName: String
 	{
 		switch self {
-		case .top:
-			return "arrow.up"
-		case .center:
-			return "plus"
-		case .left:
-			return "arrow.left"
-		case .right:
-			return "arrow.right"
 		case .topLeft:
 			return "arrow.up.left"
+		case .top:
+			return "arrow.up"
 		case .topRight:
 			return "arrow.up.right"
+		case .left:
+			return "arrow.left"
+		case .center:
+			return "plus"
+		case .right:
+			return "arrow.right"
+		case .bottomLeft:
+			return "arrow.down.left"
+		case .bottom:
+			return "arrow.down"
+		case .bottomRight:
+			return "arrow.down.right"
 		default:
 			fatalError()
 		}
