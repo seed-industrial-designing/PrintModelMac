@@ -175,6 +175,7 @@ protocol DeviceSettingParameterSerializedInfo: Decodable
 	var identifier: String { get }
 	var pane: String? { get }
 }
+
 @propertyWrapper struct CustomDecodedParameterSerializedInfos: Decodable
 {
 	enum Error: LocalizedError
@@ -182,13 +183,14 @@ protocol DeviceSettingParameterSerializedInfo: Decodable
 		case invalidType(type: String)
 	}
 	
-	public var wrappedValue: [DeviceSettingParameterSerializedInfo]
+	public var wrappedValue: [DeviceSettingParameterSerializedInfo] = []
 	
 	enum ParameterCodingKey: CodingKey
 	{
 		case type
 	}
-	public init(from decoder: Decoder) throws
+	public init() { }
+	public init(from decoder: any Decoder) throws
 	{
 		var result: [DeviceSettingParameterSerializedInfo] = []
 		var arrayContainerForType = try decoder.unkeyedContainer()
@@ -209,4 +211,14 @@ protocol DeviceSettingParameterSerializedInfo: Decodable
 		wrappedValue = result
 	}
 }
-
+extension KeyedDecodingContainer
+{
+	func decode(_: CustomDecodedParameterSerializedInfos.Type, forKey key: Key) throws -> CustomDecodedParameterSerializedInfos
+	{
+		do {
+			return try .init(from: superDecoder(forKey: key))
+		} catch {
+			return .init()
+		}
+	}
+}
