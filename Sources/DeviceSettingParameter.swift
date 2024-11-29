@@ -182,7 +182,7 @@ protocol DeviceSettingParameterSerializedInfo: Decodable
 		case invalidType(type: String)
 	}
 	
-	public let wrappedValue: [DeviceSettingParameterSerializedInfo]
+	public var wrappedValue: [DeviceSettingParameterSerializedInfo]
 	
 	enum ParameterCodingKey: CodingKey
 	{

@@ -33,37 +33,125 @@ import Foundation
 		return _deviceDescriptors!
 	}
 	
-	struct SerializedInfo: Decodable
+	enum SerializedInfoContainer: Decodable
 	{
-		let isDisabled: Bool?
-		let modelName: String
-		let displayName: String?
-		let printerType: String
-		let printVerb: PrintVerb?
-		let canvases: [Canvas.SerializedInfo]
+		case base(BaseSerializedInfo)
+		case override(OverrideSerializedInfo)
 		
-		let transportTypes: [String]?
-		let colorAbility: String?
-		let headDotCount: Int?
-		let dpi: CGFloat
-		let hidesDpi: Bool?
-		let offsetBases: [String]
-		let completionAlertVideoName: String?
+		init(from decoder: any Decoder) throws
+		{
+			enum TypeCheckCodingKeys: CodingKey { case baseModelName }
+			let typeCheckContainer = try decoder.container(keyedBy: TypeCheckCodingKeys.self)
+			self = if typeCheckContainer.contains(.baseModelName) {
+				try .override(.init(from: decoder))
+			} else {
+				try .base(.init(from: decoder))
+			}
+		}
+	}
+	struct OverrideSerializedInfo: Decodable
+	{
+		var modelName: String
+		var baseModelName: String
+		
+		//These properties are replaced:
+		var isDisabled: Bool?
+		var displayName: String?
+		var printerType: String?
+		var canvases: [Canvas.SerializedInfo]?
+		var transportTypes: [String]?
+		var colorAbility: String?
+		var offsetBases: [String]?
+		
+		//These properties are merged:
+		var additionalInfos: DeviceAdditionalInfoDictionary?
+		@CustomDecodedParameterSerializedInfos var parameterProperties: [DeviceSettingParameterSerializedInfo]
+		var maintenanceActions: [MaintenanceAction.SerializedInfo]?
+		
+		func connected(base: BaseSerializedInfo) -> BaseSerializedInfo
+		{
+			var result = base; do {
+				result.isDisabled = isDisabled
+				result.modelName = modelName
+				if let displayName { result.displayName = displayName }
+				if let printerType { result.printerType = printerType }
+				if let canvases { result.canvases = canvases }
+				if let transportTypes { result.transportTypes = transportTypes }
+				if let colorAbility { result.colorAbility = colorAbility }
+				if let offsetBases { result.offsetBases = offsetBases }
+				if let additionalInfos {
+					result.additionalInfos = additionalInfos.merging(preferring: additionalInfos)
+				}
+				func merge<T>(override: [T], base: [T], id: KeyPath<T, String>) -> [T]
+				{
+					var result = base
+					for overrideItem in override {
+						if let i = result.firstIndex(where: { $0[keyPath: id] == overrideItem[keyPath: id] }) {
+							result.replaceSubrange(i...i, with: [overrideItem])
+						} else {
+							result.append(overrideItem)
+						}
+					}
+					return result
+				}
+				if !parameterProperties.isEmpty {
+					result.parameterProperties = merge(override: parameterProperties, base: base.parameterProperties, id: \.identifier)
+				}
+				if let maintenanceActions {
+					result.maintenanceActions = merge(override: maintenanceActions, base: (base.maintenanceActions ?? []), id: \.identifier)
+				}
+			}
+			return result
+		}
+	}
+	struct BaseSerializedInfo: Decodable
+	{
+		var isDisabled: Bool?
+		var modelName: String
+		var displayName: String?
+		var printerType: String
+		var printVerb: PrintVerb?
+		var canvases: [Canvas.SerializedInfo]
+		
+		var transportTypes: [String]?
+		var colorAbility: String?
+		var headDotCount: Int?
+		var dpi: CGFloat
+		var hidesDpi: Bool?
+		var offsetBases: [String]
+		var completionAlertVideoName: String?
 		
 		@CustomDecodedParameterSerializedInfos var parameterProperties: [DeviceSettingParameterSerializedInfo]
-		let maintenanceActions: [MaintenanceAction.SerializedInfo]?
-		let showsMaintenanceButton: Bool?
-		let additionalInfos: DeviceAdditionalInfoDictionary?
+		var maintenanceActions: [MaintenanceAction.SerializedInfo]?
+		var showsMaintenanceButton: Bool?
+		var additionalInfos: DeviceAdditionalInfoDictionary?
 	}
 	public static func deviceDescriptors(decoding jsonData: Data, bundle: Bundle) throws -> [DeviceDescriptor]
 	{
 		let jsonDecoder = JSONDecoder()
-		return try jsonDecoder.decode([DeviceDescriptor.SerializedInfo].self, from: jsonData)
+		
+		struct ModelNameOnly: Decodable { var modelName: String }
+		let allModelNames = try jsonDecoder.decode([ModelNameOnly].self, from: jsonData)
+			.map { $0.modelName }
+		
+		let all = try jsonDecoder.decode([DeviceDescriptor.SerializedInfoContainer].self, from: jsonData)
+		var connected: [BaseSerializedInfo] = all.compactMap { if case .base(let base) = $0 { base } else { nil } }
+		var overrides: [OverrideSerializedInfo] = all.compactMap { if case .override(let override) = $0 { override } else { nil } }
+		while !overrides.isEmpty {
+			for (i, override) in Array(overrides).enumerated() {
+				if let base = connected.first(where: { $0.modelName == override.baseModelName }) {
+					connected.append(override.connected(base: base))
+					overrides.remove(at: i)
+				}
+			}
+		}
+		return allModelNames
+			.compactMap { modelName in connected.first(where: { $0.modelName == modelName }) }
 			.filter { !($0.isDisabled ?? false) }
 			.map { DeviceDescriptor(from: $0, bundle: bundle) }
 	}
 
-	init(from serializedInfo: SerializedInfo, bundle: Bundle)
+	init(from serializedInfo: BaseSerializedInfo, bundle: Bundle)
 	{
 		var localizedStringTables: [LocalizedStringTable] = [.main, .printModel]; do {
 			let bundleTable = LocalizedStringTable(bundle: bundle, name: nil)

@@ -39,21 +39,35 @@ public struct DeviceAdditionalInfoDictionary: Decodable
 		var intValue: Int? { nil }
 		init?(intValue: Int) { nil }
 	}
-	let keyedContainer: KeyedDecodingContainer<CustomCodingKey>
+	let keyedContainers: [KeyedDecodingContainer<CustomCodingKey>] //[override, ..., base]
 	init()
 	{
-		self = (try! JSONDecoder().decode(DeviceAdditionalInfoDictionary.self, from: "{}".data(using: .utf8)!))
+		self = (try! JSONDecoder().decode(Self.self, from: "{}".data(using: .utf8)!))
+	}
+	init(keyedContainers: [KeyedDecodingContainer<CustomCodingKey>])
+	{
+		self.keyedContainers = keyedContainers
 	}
 	public init(from decoder: Decoder) throws
 	{
-		keyedContainer = try decoder.container(keyedBy: CustomCodingKey.self)
+		keyedContainers = [try decoder.container(keyedBy: CustomCodingKey.self)]
 	}
 	public func value<T: DeviceAdditionalInfo>(of type: T.Type) throws -> T
 	{
-		try keyedContainer.decode(T.self, forKey: .init(stringValue: T.key))
+		for container in keyedContainers {
+			if let result = try container.decodeIfPresent(T.self, forKey: .init(stringValue: T.key)) {
+				return result
+			}
+		}
+		fatalError("Could not decode additional info of type \(T.self).")
 	}
 	public func valueOrDefault<T: DeviceAdditionalInfo>(of type: T.Type) -> T
 	{
-		(try? keyedContainer.decode(T.self, forKey: .init(stringValue: T.key))) ?? .init()
+		(try? value(of: type)) ?? .init()
+	}
+	
+	public func merging(preferring override: Self) -> Self
+	{
+		.init(keyedContainers: (override.keyedContainers + keyedContainers))
 	}
 }
