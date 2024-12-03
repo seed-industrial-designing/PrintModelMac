@@ -29,6 +29,19 @@ public protocol DeviceAdditionalInfo: Decodable
 }
 public struct DeviceAdditionalInfoDictionary: Decodable
 {
+	enum Error: Swift.Error
+	{
+		case keyNotFound(forType: DeviceAdditionalInfo.Type)
+		
+		var localizedDescription: String
+		{
+			switch self {
+			case .keyNotFound(forType: let type):
+				fatalError("Key “\(type.key)” not found when decoding additional info of type \(type.self).")
+			}
+		}
+	}
+	
 	struct CustomCodingKey: CodingKey
 	{
 		var stringValue: String
@@ -59,7 +72,7 @@ public struct DeviceAdditionalInfoDictionary: Decodable
 				return result
 			}
 		}
-		fatalError("Could not decode additional info of type \(T.self).")
+		throw Error.keyNotFound(forType: T.self)
 	}
 	public func valueOrDefault<T: DeviceAdditionalInfo>(of type: T.Type) -> T
 	{
