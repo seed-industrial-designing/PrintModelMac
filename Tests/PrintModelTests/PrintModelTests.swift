@@ -61,10 +61,36 @@ final class PrintModelTests: XCTestCase
 						"identifier": "sniff",
 						"visibility": "debug"
 					}
-				]
+				],
+				"additionalInfos": {
+					"food": {
+						"kind": "meat"
+					}
+				}
 			}
 		]
 """
-		try JSONDecoder().decode([DeviceDescriptor.SerializedInfoContainer].self, from: json.data(using: .utf8)!)
+		let containers = try JSONDecoder().decode([DeviceDescriptor.SerializedInfoContainer].self, from: json.data(using: .utf8)!)
+		
+		let base = switch containers.first {
+		case .base(let info):
+			info
+		default:
+			fatalError("not base")
+		}
+		let override = switch containers.last {
+		case .override(let info):
+			info
+		default:
+			fatalError("not override")
+		}
+		
+		let dog = override.connected(base: base)
+		struct Food: DeviceAdditionalInfo
+		{
+			static let key = "food"
+			var kind: String = ""
+		}
+		XCTAssertEqual(try dog.additionalInfos!.value(of: Food.self).kind, "meat")
 	}
 }
