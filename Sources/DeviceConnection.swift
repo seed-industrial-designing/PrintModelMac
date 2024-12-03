@@ -21,9 +21,9 @@
 //
 
 import Foundation
-#if os(macOS)
+#if canImport(AppKit)
 import AppKit
-#else
+#elseif canImport(UIKit)
 import UIKit
 #endif
 
@@ -121,9 +121,9 @@ public enum DeviceStatusElement: Equatable
 			case .applicationTemplate:
 				return "app"
 			case .computerTemplate:
-				#if os(macOS)
+				#if canImport(AppKit)
 				return "display"
-				#else
+				#elseif canImport(UIKit)
 				switch UIDevice.current.model {
 				case "iPad":
 					return "ipad"

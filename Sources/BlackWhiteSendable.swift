@@ -21,7 +21,9 @@
 //
 
 import Foundation
+#if canImport(CoreGraphics)
 import CoreGraphics
+#endif
 import PipeModel
 
 public protocol BlackWhiteSendable { }
@@ -101,7 +103,7 @@ extension BlackWhiteSendable where Self: DeviceConnection
 		}
 	}
 	
-	
+	#if canImport(CoreGraphics)
 	public func sendColumns(of bitmap: CGImage, progress: Progress, option: Set<BlackWhiteColumnsSendingOption>, maxBufferCount: Int = 3200, context: some DeviceCommunicationContext) async throws
 	{
 		let headDotCount = deviceDescriptor.headDotCount
@@ -166,4 +168,5 @@ extension BlackWhiteSendable where Self: DeviceConnection
 			}
 		}
 	}
+	#endif
 }

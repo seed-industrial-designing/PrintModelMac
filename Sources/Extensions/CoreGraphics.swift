@@ -20,6 +20,8 @@
 // SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import CoreGraphics
 
 public extension CGContext
@@ -146,3 +148,5 @@ extension CGBitmapInfo: CustomDebugStringConvertible
 		}
 	}
 }
+
+#endif

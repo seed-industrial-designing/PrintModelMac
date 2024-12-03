@@ -20,6 +20,8 @@
 // SOFTWARE.
 //
 
+#if canImport(CoreGraphics)
+
 import Foundation
 #if os(macOS)
 import AppKit
@@ -523,3 +525,4 @@ public final class OriginalImage: NSObject, NSCopying
 	}
 }
 
+#endif
