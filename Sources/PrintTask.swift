@@ -55,8 +55,8 @@ public enum ImageSource
 		//"ForDisplay" means rotated.
 		public var imageSizeForDisplay_px: Size_px { imageOrientation.isWidthHeightFlipped ? imageSize_px.rotated : imageSize_px }
 	}
-	case originalImage(OriginalImage, options: OriginalImageDrawingOptions)
 	#if canImport(CoreGraphics)
+	case originalImage(OriginalImage, options: OriginalImageDrawingOptions)
 	case canvasSizedImage(handler: () -> CGImage)
 	#endif
 	case rawImageData(handler: () -> Data)

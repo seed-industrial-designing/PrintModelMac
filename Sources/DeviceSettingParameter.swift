@@ -22,6 +22,9 @@
 
 import Foundation
 
+#if canImport(ObjectiveC)
+@objcMembers
+#endif
 public class DeviceSettingParameter: NSObject
 {
 	init(from serializedInfo: DeviceSettingParameterSerializedInfo, localizedStringTables: [LocalizedStringTable])
@@ -34,11 +37,11 @@ public class DeviceSettingParameter: NSObject
 	
 	//MARK: - Properties
 	
-	@objc public var identifier: String
-	@objc public var paneIdentifier: String
-	@objc public var `default`: Any!
+	public var identifier: String
+	public var paneIdentifier: String
+	public var `default`: Any!
 	
-	@objc public var localizedLeftColumnText: String
+	public var localizedLeftColumnText: String
 	
 	//MARK: - Subclasses
 	
@@ -69,14 +72,20 @@ public class DeviceSettingParameter: NSObject
 		//MARK: - Parameters
 		
 		@nonobjc public var min = 0.0
-		@objc(min) public var min_objc: NSNumber { (min as NSNumber) }
+		#if canImport(ObjectiveC)
+		@objc(min)
+		#endif
+		public var min_objc: NSNumber { (min as NSNumber) }
 		
 		@nonobjc public var max = 1.0
-		@objc(max) public var max_objc: NSNumber { (max as NSNumber) }
+		#if canImport(ObjectiveC)
+		@objc(max)
+		#endif
+		public var max_objc: NSNumber { (max as NSNumber) }
 		
 		@nonobjc public var defaultNumber: Double { (`default` as! Double) }
 		
-		@objc public dynamic var numberOfSteps = 0
+		public dynamic var numberOfSteps = 0
 		
 		public func constrainValue(_ value: Double) -> Double
 		{
@@ -112,11 +121,11 @@ public class DeviceSettingParameter: NSObject
 		
 		//MARK: - Properties
 		
-		@objc public var defaultBool: Bool { (`default` as! Bool) }
+		public var defaultBool: Bool { (`default` as! Bool) }
 		
-		@objc public var negates = false
+		public var negates = false
 		
-		@objc public var localizedCheckboxTitleText: String
+		public var localizedCheckboxTitleText: String
 	}
 	public final class PickParameter: DeviceSettingParameter
 	{
@@ -129,13 +138,16 @@ public class DeviceSettingParameter: NSObject
 			let items: [String]
 		}
 		
+		#if canImport(ObjectiveC)
+		@objcMembers
+		#endif
 		public class Item: NSObject
 		{
 			//MARK: - Properties
 			
-			@objc public dynamic let identifier: String
-			@objc public dynamic let parameterIdentifier: String
-			@objc public dynamic let localizedName: String
+			public dynamic let identifier: String
+			public dynamic let parameterIdentifier: String
+			public dynamic let localizedName: String
 			
 			//MARK: - Init
 			
@@ -162,9 +174,9 @@ public class DeviceSettingParameter: NSObject
 		
 		//MARK: - Properties
 		
-		@objc public dynamic var items: [Item] = []
+		public dynamic var items: [Item] = []
 		
-		@objc public var defaultItemIdentifier: String { (`default` as! String) }
+		public var defaultItemIdentifier: String { (`default` as! String) }
 	}
 }
 

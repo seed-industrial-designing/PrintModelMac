@@ -31,6 +31,9 @@ public enum CanvasForm
 	case variableCylinder(width_mm: CGFloat, diameterRange_mm: ClosedRange<CGFloat>)
 }
 
+#if canImport(ObjectiveC)
+@objcMembers
+#endif
 public class Canvas: NSObject
 {
 	struct SerializedInfo: Decodable
@@ -93,12 +96,12 @@ public class Canvas: NSObject
 	}
 	
 	//MARK: - Properties
-	
-	@objc public dynamic var identifier: String
-	@objc public dynamic var name: String
-	@objc public dynamic var size_mm: CGSize
+		
+	public dynamic var identifier: String
+	public dynamic var name: String
+	public dynamic var size_mm: CGSize
 	#if os(macOS)
-	@objc public dynamic var figureImage: NSImage?
+	public dynamic var figureImage: NSImage?
 	#endif
 }
 

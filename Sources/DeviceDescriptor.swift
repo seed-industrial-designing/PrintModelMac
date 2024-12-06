@@ -22,7 +22,10 @@
 
 import Foundation
 
-@objc public final class DeviceDescriptor : NSObject, NSCopying
+#if canImport(ObjectiveC)
+@objcMembers
+#endif
+public final class DeviceDescriptor : NSObject, NSCopying
 {
 	private static var _deviceDescriptors: [DeviceDescriptor]? = nil
 	public class var supported: [DeviceDescriptor]
@@ -168,20 +171,20 @@ import Foundation
 		printerType = serializedInfo.printerType
 		printVerb = (serializedInfo.printVerb ?? .print)
 		colorAbility = serializedInfo.colorAbility.flatMap { ColorAbility(rawValue: $0) } ?? .blackWhite
-		colorAbility_objc = colorAbility.rawValue
 		headDotCount = serializedInfo.headDotCount ?? 1
 		dpi = .init(rawValue: serializedInfo.dpi)
-		dpi_objc = dpi.rawValue
 		hidesDpi = serializedInfo.hidesDpi ?? false
 		
 		canvases = serializedInfo.canvases.map { Canvas(from: $0, localizedStringTables: localizedStringTables) }
-		
 		allowedOffsetBases = serializedInfo.offsetBases.compactMap { OffsetBase(rawValue: $0) }
-		_allowedOffsetBases_objc = allowedOffsetBases.map { $0.rawValue }
-				
 		transportTypes = (serializedInfo.transportTypes ?? ["usb"]).map { TransportType(rawValue: $0)! }
-		transportTypes_objc = transportTypes.map { $0.rawValue }
 		
+		#if canImport(ObjectiveC)
+		colorAbility_objc = colorAbility.rawValue
+		dpi_objc = dpi.rawValue
+		_allowedOffsetBases_objc = allowedOffsetBases.map { $0.rawValue }
+		transportTypes_objc = transportTypes.map { $0.rawValue }
+		#endif
 		guard !allowedOffsetBases.isEmpty, !canvases.isEmpty else {
 			fatalError()
 		}
@@ -219,32 +222,35 @@ import Foundation
 	}
 	public func copy(with zone: NSZone? = nil) -> Any { self }
 	
-	@objc public dynamic let modelName: String
-	@objc public dynamic let localizedName: String
-	@objc public dynamic let printerType: String
+	public dynamic let modelName: String
+	public dynamic let localizedName: String
+	public dynamic let printerType: String
 	public var printVerb: PrintVerb
-	@objc public dynamic let canvases: [Canvas]
+	public dynamic let canvases: [Canvas]
 	@nonobjc public let transportTypes: [TransportType]
-	@objc(transportTypes) public dynamic let transportTypes_objc: [String]
 	@nonobjc public let colorAbility: ColorAbility
-	@objc(colorAbility) public dynamic let colorAbility_objc: String
-	@objc public dynamic let headDotCount: Int
+	public dynamic let headDotCount: Int
 	@nonobjc public let dpi: Dpi
-	@objc(dpi) public dynamic let dpi_objc: CGFloat
-	@objc public dynamic let hidesDpi: Bool
-	@objc public dynamic let completionAlertVideoUrl: URL?
+	public dynamic let hidesDpi: Bool
+	public dynamic let completionAlertVideoUrl: URL?
 	public let maintenanceActions: [MaintenanceAction]
 	public let visibleMaintenanceActions: [MaintenanceAction]
 	public let visibleMaintenanceActionsIncludingDebug: [MaintenanceAction]
 
 	@nonobjc public let allowedOffsetBases: [OffsetBase]
-	@objc(allowedOffsetBases) public dynamic let _allowedOffsetBases_objc: [String]
 	
 	public let additionalInfos: DeviceAdditionalInfoDictionary
-	@objc public dynamic let parameterProperties: [DeviceSettingParameter]
-	@objc public dynamic let showsMaintenanceButton: Bool
+	public dynamic let parameterProperties: [DeviceSettingParameter]
+	public dynamic let showsMaintenanceButton: Bool
 	
 	public var localizedStringTables: [LocalizedStringTable]
+	
+	#if canImport(ObjectiveC)
+	@objc(transportTypes) public dynamic let transportTypes_objc: [String]
+	@objc(colorAbility) public dynamic let colorAbility_objc: String
+	@objc(dpi) public dynamic let dpi_objc: CGFloat
+	@objc(allowedOffsetBases) public dynamic let _allowedOffsetBases_objc: [String]
+	#endif
 }
 
 public struct MaintenanceAction
@@ -289,9 +295,12 @@ extension DeviceDescriptor
 {
 	public var showsCompletionAlert: Bool { printCompletionMessage != nil }
 }
+#if canImport(ObjectiveC)
+@objc
+#endif
 extension DeviceDescriptor
 {
-	@objc public var printProgressTitle: String
+	public var printProgressTitle: String
 	{
 		let localizedKey: String
 		switch printVerb {
@@ -302,7 +311,7 @@ extension DeviceDescriptor
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("PrintProgress_title_" + localizedKey)) ?? localizedKey
 	}
-	@objc public var printButtonTitle: String
+	public var printButtonTitle: String
 	{
 		let localizedKey: String
 		switch printVerb {
@@ -317,7 +326,7 @@ extension DeviceDescriptor
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_Print_PrintButtonTitle_" + localizedKey)) ?? localizedKey
 	}
-	@objc public var printInspectorOptionsExpanderTitle: String
+	public var printInspectorOptionsExpanderTitle: String
 	{
 		let localizedKey: String
 		switch printVerb {
@@ -328,7 +337,7 @@ extension DeviceDescriptor
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_Print_OptionsExpanderTitle_" + localizedKey)) ?? localizedKey
 	}
-	@objc public var printMenuItemTitle: String
+	public var printMenuItemTitle: String
 	{
 		let localizedKey: String
 		switch printVerb {
@@ -343,7 +352,7 @@ extension DeviceDescriptor
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Menu_" + localizedKey)) ?? localizedKey
 	}
-	@objc public var printInspectorPaneTitle: String
+	public var printInspectorPaneTitle: String
 	{
 		let localizedKey: String
 		switch printVerb {
@@ -354,7 +363,7 @@ extension DeviceDescriptor
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_Print_Title_" + localizedKey)) ?? localizedKey
 	}
-	@objc public var overflowAlertMessage: String
+	public var overflowAlertMessage: String
 	{
 		let localizedKey: String
 		switch printVerb {
@@ -365,11 +374,11 @@ extension DeviceDescriptor
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_ImageLayout_overflowAlertDescription_" + localizedKey)) ?? localizedKey
 	}
-	@objc public var printCompletionMessage: String?
+	public var printCompletionMessage: String?
 	{
 		LocalizedStringTable.preferredLocalizedString(forKey: ("PrintCompletionAlert_Message_" + modelName), in: localizedStringTables)
 	}
-	@objc public var printCompletionInformativeText: String?
+	public var printCompletionInformativeText: String?
 	{
 		LocalizedStringTable.preferredLocalizedString(forKey: ("PrintCompletionAlert_InformativeText_" + modelName), in: localizedStringTables)
 	}
