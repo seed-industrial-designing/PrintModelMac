@@ -20,6 +20,8 @@
 // SOFTWARE.
 //
 
+#if !os(Linux)
+
 import Foundation
 
 public extension NSItemProvider
@@ -38,3 +40,5 @@ public extension NSItemProvider
 		}
 	}
 }
+
+#endif

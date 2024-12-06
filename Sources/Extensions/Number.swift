@@ -22,6 +22,7 @@
 
 import Foundation
 
+#if !os(Linux)
 public extension Int32
 {
 	init(fourCharString: String)
@@ -47,6 +48,8 @@ public extension Int32
 			}
 	}
 }
+#endif
+
 public extension FixedWidthInteger
 {
 	init(upper: UInt8, lower: UInt8) { self = ((Self(upper) << 8) | Self(lower)) }

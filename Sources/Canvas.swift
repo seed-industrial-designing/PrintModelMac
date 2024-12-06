@@ -114,5 +114,5 @@ extension Canvas
 
 extension Canvas: Identifiable
 {
-	public var id: String { identifier + "_" + size_mm.debugDescription }
+	public var id: String { "\(identifier)_\(size_mm)" }
 }
