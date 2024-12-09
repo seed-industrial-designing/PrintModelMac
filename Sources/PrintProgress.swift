@@ -80,10 +80,18 @@ extension Progress
 {
 	public func setLocalizedDescription<T: LocalizedProgressDescription>(_ type: T)
 	{
+		#if os(Linux)
+		print(type.localizedValue)
+		#else
 		localizedDescription = type.localizedValue
+		#endif
 	}
 	public func setLocalizedAdditionalDescription<T: LocalizedAdditionalProgressDescription>(_ type: T)
 	{
+		#if os(Linux)
+		print(type.localizedValue)
+		#else
 		localizedAdditionalDescription = type.localizedValue
+		#endif
 	}
 }

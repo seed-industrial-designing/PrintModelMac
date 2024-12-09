@@ -117,38 +117,38 @@ public enum DeviceStatusElement: Equatable
 		{
 			switch self {
 			case .timeTemplate:
-				"clock"
+				return "clock"
 			case .applicationTemplate:
-				"app"
+				return "app"
 			case .computerTemplate:
 				#if canImport(AppKit)
-				"display"
+				return "display"
 				#elseif canImport(UIKit)
 				switch UIDevice.current.model {
 				case "iPad":
-					"ipad"
+					return "ipad"
 				case "iPod touch":
-					"ipodtouch"
+					return "ipodtouch"
 				default:
-					"iphone"
+					return "iphone"
 				}
 				#endif
 			case .osTemplate:
 				#if os(Linux)
-				"pc"
+				return "pc"
 				#else
-				"\(ProcessInfo().operatingSystemVersion.majorVersion).square"
+				return "\(ProcessInfo().operatingSystemVersion.majorVersion).square"
 				#endif
 			case .infoTemplate:
-				"info.circle"
+				return "info.circle"
 			case .alertTemplate:
-				"exclamationmark.triangle"
+				return "exclamationmark.triangle"
 			case .temperatureTemplate:
-				"thermometer"
+				return "thermometer"
 			case .inkColor:
-				"paintpalette"
+				return "paintpalette"
 			case .inkBlack:
-				"drop"
+				return "drop"
 			}
 		}
 	}
