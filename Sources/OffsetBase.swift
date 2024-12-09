@@ -37,6 +37,7 @@ public enum OffsetBaseHorizontalPosition
 
 public struct OffsetBase: RawRepresentable, Hashable, Codable
 {
+	#if os(macOS)
 	private static let fourCharCodes: [Self: Int32] = [ //for legacy purpose
 		.topLeft: .init(fourCharString: "obTL"),
 		.top: .init(fourCharString: "obTo"),
@@ -50,6 +51,7 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 		.bottom: .init(fourCharString: "obBo"),
 		.bottomRight: .init(fourCharString: "obBR"),
 	]
+	#endif
 	public init?(rawValue: String)
 	{
 		switch rawValue {
@@ -75,6 +77,7 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 			return nil
 		}
 	}
+	#if os(macOS)
 	public init?(fourCharCode: Int32)
 	{
 		guard let newSelf = Self.fourCharCodes.first(where: { $0.value == fourCharCode })?.key else {
@@ -82,6 +85,7 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 		}
 		self = newSelf
 	}
+	#endif
 	public init(positionVertical verticalPosition: OffsetBaseVerticalPosition, horizontal horizontalPosition: OffsetBaseHorizontalPosition)
 	{
 		self.verticalPosition = verticalPosition
@@ -129,7 +133,9 @@ public struct OffsetBase: RawRepresentable, Hashable, Codable
 			return "bottomRight"
 		}
 	}
+	#if os(macOS)
 	public var fourCharCode: Int32? { Self.fourCharCodes[self] }
+	#endif
 	
 	@available(iOS 13, *)
 	@available(macOS 11, *)

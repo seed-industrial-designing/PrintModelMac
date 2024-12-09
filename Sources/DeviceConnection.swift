@@ -117,35 +117,38 @@ public enum DeviceStatusElement: Equatable
 		{
 			switch self {
 			case .timeTemplate:
-				return "clock"
+				"clock"
 			case .applicationTemplate:
-				return "app"
+				"app"
 			case .computerTemplate:
 				#if canImport(AppKit)
-				return "display"
+				"display"
 				#elseif canImport(UIKit)
 				switch UIDevice.current.model {
 				case "iPad":
-					return "ipad"
+					"ipad"
 				case "iPod touch":
-					return "ipodtouch"
+					"ipodtouch"
 				default:
-					return "iphone"
+					"iphone"
 				}
 				#endif
 			case .osTemplate:
-				let osVersion = ProcessInfo().operatingSystemVersion
-				return "\(osVersion.majorVersion).square"
+				#if os(Linux)
+				"pc"
+				#else
+				"\(ProcessInfo().operatingSystemVersion.majorVersion).square"
+				#endif
 			case .infoTemplate:
-				return "info.circle"
+				"info.circle"
 			case .alertTemplate:
-				return "exclamationmark.triangle"
+				"exclamationmark.triangle"
 			case .temperatureTemplate:
-				return "thermometer"
+				"thermometer"
 			case .inkColor:
-				return "paintpalette"
+				"paintpalette"
 			case .inkBlack:
-				return "drop"
+				"drop"
 			}
 		}
 	}
@@ -285,10 +288,10 @@ open class DeviceConnection
 			}
 			switch receivedBytes.first! {
 			case .ack:
-				NSLog("\treceived ACK.")
+				Swift.print("received ACK.")
 				return
 			case .nak:
-				NSLog("\treceived NAK!\n%@", Thread.callStackSymbols)
+				Swift.print("received NAK!\n\(Thread.callStackSymbols)")
 				throw ConnectionError.receivedInvalidData
 			default:
 				try await Task.sleep(nanoseconds: 500_000_000)
