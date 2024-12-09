@@ -115,40 +115,40 @@ public enum DeviceStatusElement: Equatable
 		@available(iOS 15, macOS 11, *)
 		public var systemImageName: String
 		{
-			switch self {
+			return switch self {
 			case .timeTemplate:
-				return "clock"
+				"clock"
 			case .applicationTemplate:
-				return "app"
+				"app"
 			case .computerTemplate:
 				#if canImport(AppKit)
-				return "display"
+				"display"
 				#elseif canImport(UIKit)
 				switch UIDevice.current.model {
 				case "iPad":
-					return "ipad"
+					"ipad"
 				case "iPod touch":
-					return "ipodtouch"
+					"ipodtouch"
 				default:
-					return "iphone"
+					"iphone"
 				}
 				#endif
 			case .osTemplate:
 				#if os(Linux)
-				return "pc"
+				"pc"
 				#else
-				return "\(ProcessInfo().operatingSystemVersion.majorVersion).square"
+				"\(ProcessInfo().operatingSystemVersion.majorVersion).square"
 				#endif
 			case .infoTemplate:
-				return "info.circle"
+				"info.circle"
 			case .alertTemplate:
-				return "exclamationmark.triangle"
+				"exclamationmark.triangle"
 			case .temperatureTemplate:
-				return "thermometer"
+				"thermometer"
 			case .inkColor:
-				return "paintpalette"
+				"paintpalette"
 			case .inkBlack:
-				return "drop"
+				"drop"
 			}
 		}
 	}
