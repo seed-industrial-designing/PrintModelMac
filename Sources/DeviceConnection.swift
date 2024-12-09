@@ -115,7 +115,7 @@ public enum DeviceStatusElement: Equatable
 		@available(iOS 15, macOS 11, *)
 		public var systemImageName: String
 		{
-			return switch self {
+			switch self {
 			case .timeTemplate:
 				"clock"
 			case .applicationTemplate:
@@ -132,10 +132,12 @@ public enum DeviceStatusElement: Equatable
 				default:
 					"iphone"
 				}
+				#else
+				"pc"
 				#endif
 			case .osTemplate:
 				#if os(Linux)
-				"pc"
+				"rectangle.on.rectangle.square"
 				#else
 				"\(ProcessInfo().operatingSystemVersion.majorVersion).square"
 				#endif
