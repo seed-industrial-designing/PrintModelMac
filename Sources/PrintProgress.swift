@@ -63,6 +63,7 @@ public enum ScanProgressDescription: String, LocalizedProgressDescription
 public enum PrintProgressAdditionalDescription: String, LocalizedAdditionalProgressDescription
 {
 	case clickCancelWhenCartridgeExchangeIsCompleted
+	case moveHeadToFrontAndClickCancelWhenCartridgeExchangeIsCompleted
 	
 	public var localizedValue: String { LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("PrintProgress_AdditionalDescription_" + rawValue.uppercased(onlyFirstCharacter: true))) ?? rawValue }
 }

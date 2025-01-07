@@ -99,6 +99,7 @@
 "PrintProgress_Description_WorkingScreenMaking" = "製版中...";
 "PrintProgress_Description_SendingCommand" = "コマンドを送信中...";
 "PrintProgress_Description_ReadyToExchangeCartridges" = "カートリッジを交換可能です。";
+"PrintProgress_AdditionalDescription_MoveHeadToFrontAndClickCancelWhenCartridgeExchangeIsCompleted" = "ヘッドユニットを持って手前に移動させてからカートリッジを交換してください。\n完了したら“キャンセル”をクリックしてください。";
 "PrintProgress_AdditionalDescription_ClickCancelWhenCartridgeExchangeIsCompleted" = "カートリッジの交換が完了したら“キャンセル”をクリックしてください。";
 
 "Error_connection_ReceivedInvalidData" = "マシンから受け取ったデータが正しくありませんでした。";

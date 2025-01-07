@@ -85,6 +85,7 @@
 "PrintProgress_Description_WorkingScreenMaking" = "Working on screen making...";
 "PrintProgress_Description_SendingCommand" = "Sending command...";
 "PrintProgress_Description_ReadyToExchangeCartridges" = "Ready to exchange cartridges.";
+"PrintProgress_AdditionalDescription_MoveHeadToFrontAndClickCancelWhenCartridgeExchangeIsCompleted" = "Bring the head unit to the front and exchange cartridges.\nClick Cancel when completed.";
 "PrintProgress_AdditionalDescription_ClickCancelWhenCartridgeExchangeIsCompleted" = "Click Cancel when completed.";
 
 "Error_connection_ReceivedInvalidData" = "Received invalid data.";
