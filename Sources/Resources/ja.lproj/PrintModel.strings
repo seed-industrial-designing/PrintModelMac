@@ -12,6 +12,9 @@
 "OffsetBase_menuTitle_center_WIN" = "⇔ 中心";
 "OffsetBase_menuTitle_topRight" = "↗︎ 右上";
 "OffsetBase_menuTitle_right" = "→ 右";
+"OffsetBase_menuTitle_bottom" = "↓ 下";
+"OffsetBase_menuTitle_bottomLeft" = "↙ 左下";
+"OffsetBase_menuTitle_bottomRight" = "↘ 右下";
 
 "OffsetBase_menuTitleWithoutArrow_top" = "上";
 "OffsetBase_menuTitleWithoutArrow_topLeft" = "左上";
@@ -19,6 +22,9 @@
 "OffsetBase_menuTitleWithoutArrow_center" = "中心";
 "OffsetBase_menuTitleWithoutArrow_topRight" = "右上";
 "OffsetBase_menuTitleWithoutArrow_right" = "右";
+"OffsetBase_menuTitleWithoutArrow_bottom" = "下";
+"OffsetBase_menuTitleWithoutArrow_bottomLeft" = "左下";
+"OffsetBase_menuTitleWithoutArrow_bottomRight" = "右下";
 
 "Menu_Print" = "プリント";
 "Menu_Print_WIN" = "印刷";

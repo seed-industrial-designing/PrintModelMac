@@ -12,6 +12,9 @@
 "OffsetBase_menuTitle_center_WIN" = "⇔ Center";
 "OffsetBase_menuTitle_topRight" = "↗︎ Top Right";
 "OffsetBase_menuTitle_right" = "→ Right";
+"OffsetBase_menuTitle_bottom" = "↓ Bottom";
+"OffsetBase_menuTitle_bottomLeft" = "↙ Bottom Left";
+"OffsetBase_menuTitle_bottomRight" = "↘ Bottom Right";
 
 "OffsetBase_menuTitleWithoutArrow_top" = "Top";
 "OffsetBase_menuTitleWithoutArrow_topLeft" = "Top Left";
@@ -19,6 +22,9 @@
 "OffsetBase_menuTitleWithoutArrow_center" = "Center";
 "OffsetBase_menuTitleWithoutArrow_topRight" = "Top Right";
 "OffsetBase_menuTitleWithoutArrow_right" = "Right";
+"OffsetBase_menuTitleWithoutArrow_bottom" = "Bottom";
+"OffsetBase_menuTitleWithoutArrow_bottomLeft" = "Bottom Left";
+"OffsetBase_menuTitleWithoutArrow_bottomRight" = "Bottom Right";
 
 "Menu_Print" = "Print";
 "Menu_StartScreenMaking" = "Screen Making";
