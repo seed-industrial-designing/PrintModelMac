@@ -59,7 +59,7 @@ public enum ImageSource
 	case originalImage(OriginalImage, options: OriginalImageDrawingOptions)
 	case canvasSizedImage(handler: () -> CGImage)
 	#endif
-	case rawImageData(handler: () -> Data)
+	case rawImageData(handler: () -> (data: Data, size_mm: CGSize?))
 }
 
 public struct PrintTask
