@@ -73,15 +73,13 @@ public class DeviceSettingParameter: NSObject
 		
 		@nonobjc public var min = 0.0
 		#if canImport(ObjectiveC)
-		@objc(min)
+		@objc(min) public var min_objc: NSNumber { (min as NSNumber) }
 		#endif
-		public var min_objc: NSNumber { (min as NSNumber) }
 		
 		@nonobjc public var max = 1.0
 		#if canImport(ObjectiveC)
-		@objc(max)
+		@objc(max) public var max_objc: NSNumber { (max as NSNumber) }
 		#endif
-		public var max_objc: NSNumber { (max as NSNumber) }
 		
 		@nonobjc public var defaultNumber: Double { (`default` as! Double) }
 		
