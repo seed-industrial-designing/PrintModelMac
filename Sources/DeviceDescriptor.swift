@@ -107,7 +107,7 @@ public final class DeviceDescriptor : NSObject, NSCopying
 				if let maintenanceActions {
 					result.maintenanceActions = merge(override: maintenanceActions, base: (base.maintenanceActions ?? []), id: \.identifier)
 				}
-				print("result.modelName: \(result.canvases), \(canvases)")
+				print("\(result.modelName): \(result.canvases), \(canvases)")
 			}
 			return result
 		}
