@@ -83,7 +83,11 @@ public final class DeviceDescriptor : NSObject, NSCopying
 				if let colorAbility { result.colorAbility = colorAbility }
 				if let offsetBases { result.offsetBases = offsetBases }
 				if let additionalInfos {
-					result.additionalInfos = additionalInfos.merging(preferring: additionalInfos)
+					if let baseAdditionalInfos = base.additionalInfos {
+						result.additionalInfos = baseAdditionalInfos.merging(preferring: additionalInfos)
+					} else {
+						result.additionalInfos = additionalInfos
+					}
 				}
 				func merge<T>(override: [T], base: [T], id: KeyPath<T, String>) -> [T]
 				{
