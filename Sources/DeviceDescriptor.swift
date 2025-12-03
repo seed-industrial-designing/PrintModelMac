@@ -107,6 +107,7 @@ public final class DeviceDescriptor : NSObject, NSCopying
 				if let maintenanceActions {
 					result.maintenanceActions = merge(override: maintenanceActions, base: (base.maintenanceActions ?? []), id: \.identifier)
 				}
+				result.ancestorModelNames = ([modelName] + (result.ancestorModelNames ?? []))
 			}
 			return result
 		}
@@ -132,6 +133,8 @@ public final class DeviceDescriptor : NSObject, NSCopying
 		var maintenanceActions: [MaintenanceAction.SerializedInfo]?
 		var showsMaintenanceButton: Bool?
 		var additionalInfos: DeviceAdditionalInfoDictionary?
+		
+		var ancestorModelNames: [String]? //Not included in JSON files.
 	}
 	public static func deviceDescriptors(decoding jsonData: Data, bundle: Bundle) throws -> [DeviceDescriptor]
 	{
