@@ -219,8 +219,35 @@ public final class DeviceDescriptor : NSObject, NSCopying
 		
 		showsMaintenanceButton = serializedInfo.showsMaintenanceButton ?? true
 		
-		completionAlertVideoUrl = serializedInfo.completionAlertVideoName.flatMap {
-			bundle.url(forResource: $0, withExtension: "mp4")
+		func overridableLocalizedString(prefix: String) -> String?
+		{
+			([modelName] + (serializedInfo.ancestorModelNames ?? [])).lazy
+				.compactMap { LocalizedStringTable.preferredLocalizedString(forKey: (prefix + $0), in: localizedStringTables) }
+				.first
+		}
+		if let printCompletionMessage = overridableLocalizedString(prefix: "PrintCompletionAlert_Message_") {
+			let informativeText = overridableLocalizedString(prefix: "PrintCompletionAlert_InformativeText_")
+			let videoUrl = serializedInfo.completionAlertVideoName.flatMap {
+				bundle.url(forResource: $0, withExtension: "mp4")
+			}
+			completionAlertInfo = .init(
+				message: printCompletionMessage,
+				informativeText: (informativeText ?? ""),
+				videoFileUrl: videoUrl
+			)
+		} else {
+			completionAlertInfo = nil
+		}
+		if let copyrightAlertMessage = overridableLocalizedString(prefix: "CopyrightAlert_Message_") {
+			let informativeText = overridableLocalizedString(prefix: "CopyrightAlert_Message_")
+			let buttonTitle = overridableLocalizedString(prefix: "CopyrightAlert_ButtonTitle_")
+			copyrightAlertInfo = .init(
+				message: copyrightAlertMessage,
+				informativeText: (informativeText ?? ""),
+				buttonTitle: (buttonTitle ?? "OK")
+			)
+		} else {
+			copyrightAlertInfo = nil
 		}
 		
 		additionalInfos = serializedInfo.additionalInfos ?? .init()
@@ -239,7 +266,20 @@ public final class DeviceDescriptor : NSObject, NSCopying
 	public dynamic let headDotCount: Int
 	@nonobjc public let dpi: Dpi
 	public dynamic let hidesDpi: Bool
-	public dynamic let completionAlertVideoUrl: URL?
+	public struct CompletionAlertInfo
+	{
+		public let message: String
+		public let informativeText: String
+		public let videoFileUrl: URL?
+	}
+	public dynamic let completionAlertInfo: CompletionAlertInfo?
+	public struct CopyrightAlertInfo
+	{
+		public let message: String
+		public let informativeText: String
+		public let buttonTitle: String
+	}
+	public dynamic let copyrightAlertInfo: CopyrightAlertInfo?
 	public let maintenanceActions: [MaintenanceAction]
 	public let visibleMaintenanceActions: [MaintenanceAction]
 	public let visibleMaintenanceActionsIncludingDebug: [MaintenanceAction]
@@ -300,7 +340,7 @@ public struct MaintenanceAction
 }
 extension DeviceDescriptor
 {
-	public var showsCompletionAlert: Bool { printCompletionMessage != nil }
+	public var showsCompletionAlert: Bool { completionAlertInfo != nil }
 }
 #if canImport(ObjectiveC)
 @objc
@@ -380,13 +420,5 @@ extension DeviceDescriptor
 			localizedKey = "Print"
 		}
 		return LocalizedStringTable.printModel.getLocalizedStringOrNull(forKey: ("Inspector_ImageLayout_overflowAlertDescription_" + localizedKey)) ?? localizedKey
-	}
-	public var printCompletionMessage: String?
-	{
-		LocalizedStringTable.preferredLocalizedString(forKey: ("PrintCompletionAlert_Message_" + modelName), in: localizedStringTables)
-	}
-	public var printCompletionInformativeText: String?
-	{
-		LocalizedStringTable.preferredLocalizedString(forKey: ("PrintCompletionAlert_InformativeText_" + modelName), in: localizedStringTables)
 	}
 }
