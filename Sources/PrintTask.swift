@@ -31,8 +31,7 @@ public enum ImageSource
 	{
 		public init() {}
 		
-		public var imageBitmapConversionThreshold: CGFloat = 0.5
-		public var imageBitmapExpansionLevel = 0
+		public var imageBitmapConversion = BlackConversion.threshold(.init())
 		public var imageOffset_mm = CGPoint.zero
 		public var imageSize_px = Size_px.zero
 		public var imageOrientation = ImageRotation.none
