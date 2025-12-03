@@ -204,11 +204,11 @@ public final class DeviceDescriptor : NSObject, NSCopying
 		parameterProperties = serializedInfo.parameterProperties.map {
 			switch $0 {
 			case let number as DeviceSettingParameter.NumberParameter.SerializedInfo:
-				return DeviceSettingParameter.NumberParameter(from: number, localizedStringTables: localizedStringTables)
+				DeviceSettingParameter.NumberParameter(from: number, localizedStringTables: localizedStringTables)
 			case let bool as DeviceSettingParameter.BoolParameter.SerializedInfo:
-				return DeviceSettingParameter.BoolParameter(from: bool, localizedStringTables: localizedStringTables)
+				DeviceSettingParameter.BoolParameter(from: bool, localizedStringTables: localizedStringTables)
 			case let pick as DeviceSettingParameter.PickParameter.SerializedInfo:
-				return DeviceSettingParameter.PickParameter(from: pick, localizedStringTables: localizedStringTables)
+				DeviceSettingParameter.PickParameter(from: pick, localizedStringTables: localizedStringTables)
 			default:
 				fatalError()
 			}
