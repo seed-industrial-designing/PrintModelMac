@@ -29,8 +29,10 @@ public enum BlackConversion
 			static var threshold = 0.0...1.0
 			static var expansionLevel = 0...5
 		}
-		var threshold = 0.5
-		var expansionLevel = 0
+		
+		public init() { }
+		public var threshold = 0.5
+		public var expansionLevel = 0
 	}
 	public struct HalftoneOption: Codable
 	{
@@ -40,11 +42,13 @@ public enum BlackConversion
 			static var blackClampFactor = 0.0...0.4
 			static var whiteClampFactor = 0.0...0.4
 		}
-		var linesPerInch = 20.0
-		var angle_deg = 30.0
-		var brightnessFactor = 0.0
-		var blackClampFactor = 0.0
-		var whiteClampFactor = 0.0
+		
+		public init() { }
+		public var linesPerInch = 20.0
+		public var angle_deg = 30.0
+		public var brightnessFactor = 0.0
+		public var blackClampFactor = 0.0
+		public var whiteClampFactor = 0.0
 	}
 	
 	case threshold(ThresholdOption)
