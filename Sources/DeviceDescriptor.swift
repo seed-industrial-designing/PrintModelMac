@@ -273,14 +273,14 @@ public struct MaintenanceAction
 		func getLocalization(for key: String) -> String
 		{
 			return LocalizedStringTable.preferredLocalizedString(
-				forKey: ("MaintenanceAction_" + serializedInfo.identifier + key),
+				forKey: ("MaintenanceAction_\(serializedInfo.identifier)_\(key)"),
 				in: localizedStringTables
 			) ?? serializedInfo.identifier
 		}
 		identifier = serializedInfo.identifier
 		visibility = serializedInfo.visibility ?? .visible
-		buttonTitle = getLocalization(for: "_buttonTitle")
-		progressTitle = getLocalization(for: "_progressTitle")
+		buttonTitle = getLocalization(for: "buttonTitle")
+		progressTitle = getLocalization(for: "progressTitle")
 	}
 	init(identifier: String, visibility: Visibility = .visible, buttonTitle: String, progressTitle: String)
 	{
