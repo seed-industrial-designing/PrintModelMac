@@ -22,7 +22,7 @@
 
 public enum BlackConversion
 {
-	public struct ThresholdOption: Codable
+	public struct ThresholdOption: Codable, Equatable
 	{
 		enum ClampedValueRanges
 		{
@@ -34,7 +34,7 @@ public enum BlackConversion
 		public var threshold = 0.5
 		public var expansionLevel = 0
 	}
-	public struct HalftoneOption: Codable
+	public struct HalftoneOption: Codable, Equatable
 	{
 		enum ClampedValueRanges
 		{
