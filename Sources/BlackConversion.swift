@@ -24,10 +24,10 @@ public enum BlackConversion
 {
 	public struct ThresholdOption: Codable, Equatable
 	{
-		enum ClampedValueRanges
+		public enum ClampedValueRanges
 		{
-			static var threshold = 0.0...1.0
-			static var expansionLevel = 0...5
+			public static var threshold = 0.0...1.0
+			public static var expansionLevel = 0...5
 		}
 		
 		public init() { }
@@ -36,11 +36,11 @@ public enum BlackConversion
 	}
 	public struct HalftoneOption: Codable, Equatable
 	{
-		enum ClampedValueRanges
+		public enum ClampedValueRanges
 		{
-			static var brightnessFactor = -0.6...0.6
-			static var blackClampFactor = 0.0...0.4
-			static var whiteClampFactor = 0.0...0.4
+			public static var brightnessFactor = -0.6...0.6
+			public static var blackClampFactor = 0.0...0.4
+			public static var whiteClampFactor = 0.0...0.4
 		}
 		
 		public init() { }
