@@ -39,12 +39,12 @@ public extension CGContext
 		)!
 	}
 	
-	func performSavingGState<T>(_ handler: ()->T) -> T
+	func performSavingGState<T>(_ handler: () throws -> T) rethrows -> T
 	{
 		saveGState()
 		defer { restoreGState() }
 		
-		return handler()
+		return try handler()
 	}
 }
 
