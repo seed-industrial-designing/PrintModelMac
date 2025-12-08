@@ -20,7 +20,7 @@
 // SOFTWARE.
 //
 
-public enum BlackConversion
+public enum BlackConversion: Equatable
 {
 	public struct ThresholdOption: Codable, Equatable
 	{
