@@ -27,7 +27,7 @@ public enum BlackConversion: Equatable
 		public enum ClampedValueRanges
 		{
 			public static var threshold = 0.0...1.0
-			public static var expansionLevel = 0...5
+			public static var expansionLevel = -5...5
 		}
 		
 		public init() { }
